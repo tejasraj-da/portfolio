@@ -7,60 +7,99 @@
     <meta name="description" content="A professional portfolio showcasing the data analysis projects and skills of Tejas Raj.">
     
     <style>
-        /* --- Global Styles & Variables --- */
+        /* --- Professional Look & Feel --- */
         :root {
-            --primary-color: #007bff; /* A nice blue */
-            --secondary-color: #f8f9fa; /* Light grey background */
-            --text-color: #333;
-            --heading-font: 'Georgia', serif;
-            --body-font: 'Arial', sans-serif;
+            --primary-color: #34568B; /* A more sophisticated slate blue */
+            --secondary-color: #f9f9f9; /* A softer off-white */
+            --text-color: #2c2c2c; /* A dark charcoal for better readability */
+            --heading-font: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --body-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
             font-family: var(--body-font);
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            line-height: 1.7;
             background-color: #fff;
             color: var(--text-color);
-            scroll-behavior: smooth; /* Smooth scrolling for nav links */
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
         }
 
-        /* --- Container --- */
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
-        /* --- Header --- */
+        /* --- Header: Photo on Right --- */
         header {
             background-color: var(--secondary-color);
+            padding: 5rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header-content {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .profile-photo {
+            width: 130px; /* Made slightly smaller */
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover; 
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .header-text {
             text-align: center;
-            padding: 4rem 1rem;
-            border-bottom: 1px solid #ddd;
         }
 
         header h1 {
             font-family: var(--heading-font);
             font-size: 3rem;
-            margin: 0;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
             color: var(--primary-color);
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: #555;
-            margin-top: 10px;
+            margin: 0;
+        }
+
+        /* Responsive layout for header */
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row-reverse; /* Moves photo to the right */
+                gap: 3rem;
+            }
+            .header-text {
+                text-align: left;
+            }
+            header h1 {
+                font-size: 3.5rem;
+            }
         }
 
         /* --- Navigation --- */
         nav {
-            background-color: #333;
+            background-color: #fff;
             padding: 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
         nav ul {
@@ -69,37 +108,40 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
         }
         
         nav a {
-            color: white;
+            color: #333;
             text-decoration: none;
-            font-weight: bold;
-            padding: 5px 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 8px 15px;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: color 0.3s ease, background-color 0.3s ease;
         }
 
         nav a:hover {
+            color: #fff;
             background-color: var(--primary-color);
         }
 
         /* --- Sections --- */
         section {
-            padding: 4rem 1rem;
-            border-bottom: 1px solid #eee;
+            padding: 5rem 1rem;
         }
-
-        section:nth-child(even) {
+        
+        #projects { /* Give projects a slightly different background */
             background-color: var(--secondary-color);
         }
 
         h2 {
             font-family: var(--heading-font);
             text-align: center;
-            margin-bottom: 2rem;
+            margin-top: 0;
+            margin-bottom: 3rem;
             font-size: 2.5rem;
+            font-weight: 700;
             color: var(--primary-color);
         }
         
@@ -108,16 +150,19 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .skill-badge {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: #eef2f9;
+            color: #34568B;
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
+            border: 1px solid #d1d9e6;
         }
 
         /* --- Projects Section --- */
@@ -129,31 +174,40 @@
 
         .project-card {
             background-color: #fff;
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
             padding: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .project-card p {
+            flex-grow: 1; /* Makes description take up available space */
         }
 
         .project-card h3 {
             margin-top: 0;
+            margin-bottom: 1rem;
             color: #333;
         }
 
-        .project-card a {
+        .project-links a {
             color: var(--primary-color);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             margin-right: 15px;
+            transition: opacity 0.3s ease;
         }
 
-        .project-card a:hover {
+        .project-links a:hover {
+            opacity: 0.7;
             text-decoration: underline;
         }
 
@@ -161,20 +215,24 @@
         #contact {
             text-align: center;
         }
+        #contact p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            font-size: 1.1rem;
+        }
 
         .contact-links {
             margin-top: 20px;
             display: flex;
             justify-content: center;
             gap: 20px;
-            font-size: 1.1rem;
         }
         
         .contact-links a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: bold;
-            padding: 10px 15px;
+            padding: 12px 25px;
             border: 2px solid var(--primary-color);
             border-radius: 5px;
             transition: all 0.3s ease;
@@ -187,32 +245,24 @@
 
         /* --- Footer --- */
         footer {
-            background-color: #333;
-            color: white;
+            background-color: #2c2c2c;
+            color: #ccc;
             text-align: center;
-            padding: 1.5rem;
+            padding: 2rem;
         }
-        
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
     </style>
 </head>
 <body>
 
     <header>
         <div class="container">
-            <img src="photo.jpg.jpg" alt="Profile Photo of Tejas Raj" class="profile-photo">
-            <h1>Tejas Raj</h1>
-            <p>Data Science | Data Analyst | Machine Learning Enthusiast</p>
+            <div class="header-content">
+                <img src="photo.jpg.jpg" alt="Profile Photo of Tejas Raj" class="profile-photo">
+                <div class="header-text">
+                    <h1>Tejas Raj</h1>
+                    <p>Data Science | Data Analyst | Machine Learning Enthusiast</p>
+                </div>
+            </div>
         </div>
     </header>
     
@@ -224,9 +274,8 @@
         </ul>
     </nav>
 
-    <main class="container">
-
-        <section id="skills">
+    <main>
+        <section id="skills" class="container">
             <h2>My Skills 🛠</h2>
             <div class="skills-container">
                 <span class="skill-badge">Python</span>
@@ -238,49 +287,49 @@
                 <span class="skill-badge">Scikit-learn</span>
                 <span class="skill-badge">Tableau</span>
                 <span class="skill-badge">Git & GitHub</span>
-                <span class="skill-badge">MS Excel</span>
-                <span class="skill-badge">Power BI</span>
-                <span class="skill-badge">Machine Learning</span>
             </div>
         </section>
 
         <section id="projects">
-            <h2>My Projects 🚀</h2>
-            <div class="projects-grid">
-
-                <div class="project-card">
-                    <h3>Netflix Analysis Project</h3>
-                    <p>Analyzed a dataset of Netflix titles to uncover trends in content genres, release years, and ratings. Utilized Python libraries like Pandas and Matplotlib to visualize content distribution.</p>
-                    <a href="#" target="_blank">Live Demo</a>
-                    <a href="#" target="_blank">GitHub Repo</a>
+            <div class="container">
+                <h2>My Projects 🚀</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>Netflix Analysis Project</h3>
+                        <p>Analyzed a dataset of Netflix titles to uncover trends in content genres, release years, and ratings. Utilized Python libraries like Pandas and Matplotlib to visualize content distribution.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Live Demo</a>
+                            <a href="#" target="_blank">GitHub Repo</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3>IPL Analysis Project</h3>
+                        <p>Performed an in-depth analysis of the Indian Premier League (IPL) dataset to find key player statistics, match outcomes, and team performance metrics. Created visualizations to highlight top performers.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Live Demo</a>
+                            <a href="#" target="_blank">GitHub Repo</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3>Stock Prediction Analysis</h3>
+                        <p>Developed a time-series model to predict future stock prices based on historical data. Leveraged machine learning techniques and libraries such as Scikit-learn and Pandas for data manipulation and modeling.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Live Demo</a>
+                            <a href="#" target="_blank">GitHub Repo</a>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="project-card">
-                    <h3>IPL Analysis Project</h3>
-                    <p>Performed an in-depth analysis of the Indian Premier League (IPL) dataset to find key player statistics, match outcomes, and team performance metrics. Created visualizations to highlight top performers.</p>
-                    <a href="#" target="_blank">Live Demo</a>
-                    <a href="#" target="_blank">GitHub Repo</a>
-                </div>
-
-                <div class="project-card">
-                    <h3>Stock Prediction Analysis</h3>
-                    <p>Developed a time-series model to predict future stock prices based on historical data. Leveraged machine learning techniques and libraries such as Scikit-learn and Pandas for data manipulation and modeling.</p>
-                    <a href="#" target="_blank">Live Demo</a>
-                    <a href="#" target="_blank">GitHub Repo</a>
-                </div>
-
             </div>
         </section>
 
-        <section id="contact">
+        <section id="contact" class="container">
             <h2>Get In Touch 📬</h2>
-            <p>I'm currently open to new opportunities. Feel free to reach out!</p>
+            <p>I'm currently open to new opportunities and would be happy to connect. Feel free to reach out via email or LinkedIn!</p>
             <div class="contact-links">
                 <a href="mailto:tejasraj.da@gmail.com">Email Me</a>
                 <a href="https://linkedin.com/in/tejasraj-analytics" target="_blank">LinkedIn</a>
             </div>
         </section>
-
     </main>
 
     <footer>
