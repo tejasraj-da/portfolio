@@ -7,7 +7,6 @@
     <meta name="description" content="A professional portfolio showcasing the data analysis projects and skills of Tejas Raj.">
     
     <style>
-        /* --- Professional & Interactive Design --- */
         :root {
             --primary-color: #2c5b8b;
             --secondary-color: #f7f9fc;
@@ -17,9 +16,9 @@
             --body-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* --- VIBRANT AND VISIBLE CURSOR --- */
+        /* --- SVG ARROW CURSOR --- */
         body {
-            cursor: none; /* Hide default cursor */
+            cursor: none; /* Hide default system cursor */
             font-family: var(--body-font);
             margin: 0;
             background-color: #fff;
@@ -27,37 +26,34 @@
             scroll-behavior: smooth;
         }
 
-        .cursor-dot, .cursor-outline {
-            pointer-events: none;
+        .custom-cursor {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
             z-index: 9999;
-            opacity: 1; /* Make cursor visible by default */
+            transform-origin: 0 0; /* Set transform origin to top-left for arrow */
+            transition: transform 0.1s ease;
         }
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-color);
+
+        .custom-cursor svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--accent-color);
+            filter: drop-shadow(0 0 4px rgba(74, 144, 226, 0.6));
+            transition: fill 0.3s ease;
         }
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--accent-color);
-            transition: transform 0.2s ease-out, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+
+        /* Hover effect */
+        .custom-cursor.hover svg {
+            fill: var(--primary-color);
         }
-        /* Hover effect class added by JS */
-        .cursor-outline.hover {
-            transform: translate(-50%, -50%) scale(1.6);
-            animation: color-cycle 3s linear infinite; /* Colorful transition animation */
-        }
-        
-        /* Keyframes for the color cycle animation */
-        @keyframes color-cycle {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
+
+        /* Click animation */
+        .custom-cursor.click {
+            transform: scale(0.8);
         }
         /* --- End Cursor CSS --- */
 
@@ -251,8 +247,11 @@
 </head>
 <body>
 
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <div class="custom-cursor">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.321 2.332a.6.6 0 0 1 .94-.523l16.2 9a.6.6 0 0 1 0 1.046l-16.2 9a.6.6 0 0 1-.94-.523v-18Z"/>
+        </svg>
+    </div>
 
     <header>
         <div class="container">
@@ -341,31 +340,41 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cursorDot = document.querySelector('.cursor-dot');
-            const cursorOutline = document.querySelector('.cursor-outline');
+        document.addEventListener("DOMContentLoaded", () => {
+            const cursor = document.querySelector(".custom-cursor");
+            let posX = 0, posY = 0;
+            let mouseX = 0, mouseY = 0;
 
-            window.addEventListener('mousemove', e => {
-                const posX = e.clientX;
-                const posY = e.clientY;
+            // Smooth follow effect using interpolation
+            function animate() {
+                posX += (mouseX - posX) * 0.2;
+                posY += (mouseY - posY) * 0.2;
 
-                cursorDot.style.left = ${posX}px;
-                cursorDot.style.top = ${posY}px;
+                cursor.style.transform = translate3d(${posX}px, ${posY}px, 0);
 
-                cursorOutline.animate({
-                    left: ${posX}px,
-                    top: ${posY}px
-                }, { duration: 500, fill: 'forwards' });
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Track mouse position
+            window.addEventListener("mousemove", e => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
             });
 
-            const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-badge');
+            // Hover interactions for links and buttons
+            const interactiveElements = document.querySelectorAll("a, button, .project-card, .skill-badge, .profile-photo");
             interactiveElements.forEach(el => {
-                el.addEventListener('mouseover', () => {
-                    cursorOutline.classList.add('hover');
-                });
-                el.addEventListener('mouseout', () => {
-                    cursorOutline.classList.remove('hover');
-                });
+                el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
+                el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
+            });
+
+            // Click animations
+            window.addEventListener("mousedown", () => {
+                cursor.classList.add("click");
+            });
+            window.addEventListener("mouseup", () => {
+                cursor.classList.remove("click");
             });
         });
     </script>
