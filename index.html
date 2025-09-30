@@ -35,7 +35,7 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            animation: trail-fade 0.5s linear forwards;
+            animation: trail-fade 3s linear forwards; /* changed to 3s */
         }
         
         @keyframes trail-fade {
@@ -341,7 +341,7 @@
                 // Remove the element after the animation is finished
                 setTimeout(() => {
                     trail.remove();
-                }, 500); // Must match the animation duration in CSS
+                }, 3000); // match 3s animation
             });
         });
     </script>
