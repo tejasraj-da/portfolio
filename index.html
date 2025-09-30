@@ -27,7 +27,6 @@
             overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
-        /* This is the particle for the lightning effect */
         .particle {
             position: fixed;
             border-radius: 50%;
@@ -326,18 +325,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const particleCount = 30; // Number of particles
-            const particles = [];
-            let currentMousePos = { x: -1, y: -1 };
+            let mouseX = 0;
+            let mouseY = 0;
 
-            // Listen for mouse movement
+            // Update mouse coordinates
             window.addEventListener('mousemove', e => {
-                currentMousePos.x = e.clientX;
-                currentMousePos.y = e.clientY;
+                mouseX = e.clientX;
+                mouseY = e.clientY;
             });
 
-            // Create a particle
-            function createParticle(x, y) {
+            // Function to create a single particle
+            function createParticle() {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 document.body.appendChild(particle);
@@ -346,44 +344,29 @@
                 particle.style.width = ${size}px;
                 particle.style.height = ${size}px;
                 
-                // Color palette for the magic effect
                 const color = hsl(${Math.random() * 60 + 200}, 100%, 70%); // Shades of blue and purple
                 particle.style.background = color;
 
-                const destinationX = x + (Math.random() - 0.5) * 50;
-                const destinationY = y + (Math.random() - 0.5) * 50;
+                const startX = mouseX + (Math.random() - 0.5) * 20;
+                const startY = mouseY + (Math.random() - 0.5) * 20;
+                const destX = startX + (Math.random() - 0.5) * 60;
+                const destY = startY + (Math.random() - 0.5) * 60;
 
                 const animation = particle.animate([
-                    {
-                        // Set the origin position
-                        transform: translate(${x}px, ${y}px),
-                        opacity: 1
-                    },
-                    {
-                        // and the destination position
-                        transform: translate(${destinationX}px, ${destinationY}px),
-                        opacity: 0
-                    }
+                    { transform: translate(${startX}px, ${startY}px), opacity: 1 },
+                    { transform: translate(${destX}px, ${destY}px), opacity: 0 }
                 ], {
                     duration: 500 + Math.random() * 1000,
-                    easing: 'ease-out',
-                    delay: Math.random() * 200
+                    easing: 'ease-out'
                 });
 
-                // When the animation is complete, remove the element from the page
                 animation.onfinish = () => {
                     particle.remove();
                 };
             }
 
-            // Generate particles at a regular interval
-            setInterval(() => {
-                if (currentMousePos.x !== -1) {
-                    for (let i = 0; i < 2; i++) { // Create 2 particles at a time for a denser effect
-                        createParticle(currentMousePos.x, currentMousePos.y);
-                    }
-                }
-            }, 50); // Every 50 milliseconds
+            // Create particles continuously
+            setInterval(createParticle, 50); // Create a new particle every 50ms
         });
     </script>
 </body>
