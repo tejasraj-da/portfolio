@@ -9,15 +9,15 @@
     <style>
         /* --- Professional & Interactive Design --- */
         :root {
-            --primary-color: #2c5b8b; /* A deeper, more professional blue */
-            --secondary-color: #f7f9fc; /* A very light, clean blue-grey */
-            --accent-color: #4A90E2; /* A brighter blue for hover effects */
+            --primary-color: #2c5b8b;
+            --secondary-color: #f7f9fc;
+            --accent-color: #4A90E2;
             --text-color: #333333;
             --heading-font: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --body-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* --- SUPER INTERACTIVE CURSOR --- */
+        /* --- VIBRANT AND VISIBLE CURSOR --- */
         body {
             cursor: none; /* Hide default cursor */
             font-family: var(--body-font);
@@ -25,7 +25,6 @@
             background-color: #fff;
             color: var(--text-color);
             scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
         }
 
         .cursor-dot, .cursor-outline {
@@ -36,8 +35,7 @@
             transform: translate(-50%, -50%);
             border-radius: 50%;
             z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            opacity: 1; /* Make cursor visible by default */
         }
         .cursor-dot {
             width: 8px;
@@ -47,15 +45,19 @@
         .cursor-outline {
             width: 40px;
             height: 40px;
-            border: 2px solid rgba(74, 144, 226, 0.5);
+            border: 2px solid var(--accent-color);
             transition: transform 0.2s ease-out, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
         }
         /* Hover effect class added by JS */
         .cursor-outline.hover {
-            transform: translate(-50%, -50%) scale(1.5);
-            width: 50px;
-            height: 50px;
-            border-color: rgba(74, 144, 226, 0.8);
+            transform: translate(-50%, -50%) scale(1.6);
+            animation: color-cycle 3s linear infinite; /* Colorful transition animation */
+        }
+        
+        /* Keyframes for the color cycle animation */
+        @keyframes color-cycle {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
         /* --- End Cursor CSS --- */
 
@@ -342,16 +344,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
-
-            document.addEventListener('mouseenter', () => {
-                cursorDot.style.opacity = 1;
-                cursorOutline.style.opacity = 1;
-            });
-
-            document.addEventListener('mouseleave', () => {
-                cursorDot.style.opacity = 0;
-                cursorOutline.style.opacity = 0;
-            });
 
             window.addEventListener('mousemove', e => {
                 const posX = e.clientX;
