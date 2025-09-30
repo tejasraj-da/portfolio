@@ -10,40 +10,40 @@
         :root {
             --primary-color: #2c5b8b;
             --secondary-color: #f7f9fc;
-            --accent-color: #4A90E2;
+            --accent-color: #4A90E2; /* Bright blue for the aurora */
             --text-color: #333333;
             --heading-font: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --body-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* --- MAGIC LIGHTNING CURSOR --- */
+        /* --- SYSTEM CURSOR WITH AURORA TRAIL --- */
         body {
-            cursor: default;
+            cursor: default; /* Restore the default system cursor */
             font-family: var(--body-font);
             margin: 0;
             background-color: #fff;
             color: var(--text-color);
             scroll-behavior: smooth;
-            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
-        .particle {
+        .aurora-follower {
             position: fixed;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-color);
             border-radius: 50%;
+            filter: blur(15px); /* This creates the soft, glowing effect */
             pointer-events: none;
             z-index: 9999;
-            animation: particle-fade-out 1s forwards;
+            transform: translate(-50%, -50%);
+            opacity: 0.5;
+            transition: transform 0.2s ease-out, opacity 0.3s ease-out;
         }
 
-        @keyframes particle-fade-out {
-            from {
-                opacity: 1;
-                transform: scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0);
-            }
+        /* Hover effect */
+        .aurora-follower.hover {
+            transform: translate(-50%, -50%) scale(2.5); /* Expand the glow */
+            opacity: 0.2;
         }
         /* --- End Cursor CSS --- */
 
@@ -237,6 +237,8 @@
 </head>
 <body>
     
+    <div class="aurora-follower"></div>
+
     <header>
         <div class="container">
             <div class="header-content">
@@ -325,48 +327,39 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            let mouseX = 0;
-            let mouseY = 0;
+            const follower = document.querySelector('.aurora-follower');
+            let mouseX = 0, mouseY = 0;
+            let followerX = 0, followerY = 0;
+            const speed = 0.1;
 
-            // Update mouse coordinates
             window.addEventListener('mousemove', e => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
             });
 
-            // Function to create a single particle
-            function createParticle() {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                document.body.appendChild(particle);
+            function animateFollower() {
+                const distX = mouseX - followerX;
+                const distY = mouseY - followerY;
 
-                const size = Math.floor(Math.random() * 10 + 5);
-                particle.style.width = ${size}px;
-                particle.style.height = ${size}px;
-                
-                const color = hsl(${Math.random() * 60 + 200}, 100%, 70%); // Shades of blue and purple
-                particle.style.background = color;
+                followerX += distX * speed;
+                followerY += distY * speed;
 
-                const startX = mouseX + (Math.random() - 0.5) * 20;
-                const startY = mouseY + (Math.random() - 0.5) * 20;
-                const destX = startX + (Math.random() - 0.5) * 60;
-                const destY = startY + (Math.random() - 0.5) * 60;
+                follower.style.left = ${followerX}px;
+                follower.style.top = ${followerY}px;
 
-                const animation = particle.animate([
-                    { transform: translate(${startX}px, ${startY}px), opacity: 1 },
-                    { transform: translate(${destX}px, ${destY}px), opacity: 0 }
-                ], {
-                    duration: 500 + Math.random() * 1000,
-                    easing: 'ease-out'
-                });
-
-                animation.onfinish = () => {
-                    particle.remove();
-                };
+                requestAnimationFrame(animateFollower);
             }
+            animateFollower();
 
-            // Create particles continuously
-            setInterval(createParticle, 50); // Create a new particle every 50ms
+            const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-badge, .profile-photo');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    follower.classList.add('hover');
+                });
+                el.addEventListener('mouseleave', () => {
+                    follower.classList.remove('hover');
+                });
+            });
         });
     </script>
 </body>
