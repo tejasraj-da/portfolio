@@ -16,31 +16,35 @@
             --body-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* --- SYSTEM CURSOR WITH ANIMATED TRAIL --- */
+        /* --- MAGIC LIGHTNING CURSOR --- */
         body {
-            cursor: auto; /* Restore the default system cursor */
+            cursor: default;
             font-family: var(--body-font);
             margin: 0;
             background-color: #fff;
             color: var(--text-color);
             scroll-behavior: smooth;
-            overflow-x: hidden; /* Prevent horizontal scroll from cursor trail */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
-        /* This is the trail particle */
-        .trail {
+        /* This is the particle for the lightning effect */
+        .particle {
             position: fixed;
-            height: 10px;
-            width: 10px;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            animation: trail-fade 0.5s linear forwards;
+            animation: particle-fade-out 1s forwards;
         }
-        
-        @keyframes trail-fade {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
+
+        @keyframes particle-fade-out {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0);
+            }
         }
         /* --- End Cursor CSS --- */
 
@@ -233,7 +237,7 @@
     </style>
 </head>
 <body>
-
+    
     <header>
         <div class="container">
             <div class="header-content">
@@ -321,28 +325,65 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const colors = ["#FFC107", "#FF5722", "#4CAF50", "#2196F3", "#9C27B0", "#E91E63"];
-            
-            document.addEventListener('mousemove', e => {
-                let trail = document.createElement('div');
-                trail.className = 'trail';
-                document.body.appendChild(trail);
+        document.addEventListener('DOMContentLoaded', () => {
+            const particleCount = 30; // Number of particles
+            const particles = [];
+            let currentMousePos = { x: -1, y: -1 };
 
-                const x = e.clientX;
-                const y = e.clientY;
-                
-                trail.style.left = x + 'px';
-                trail.style.top = y + 'px';
-                
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                trail.style.backgroundColor = randomColor;
-
-                // Remove the element after the animation is finished
-                setTimeout(() => {
-                    trail.remove();
-                }, 500); // Must match the animation duration in CSS
+            // Listen for mouse movement
+            window.addEventListener('mousemove', e => {
+                currentMousePos.x = e.clientX;
+                currentMousePos.y = e.clientY;
             });
+
+            // Create a particle
+            function createParticle(x, y) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                document.body.appendChild(particle);
+
+                const size = Math.floor(Math.random() * 10 + 5);
+                particle.style.width = ${size}px;
+                particle.style.height = ${size}px;
+                
+                // Color palette for the magic effect
+                const color = hsl(${Math.random() * 60 + 200}, 100%, 70%); // Shades of blue and purple
+                particle.style.background = color;
+
+                const destinationX = x + (Math.random() - 0.5) * 50;
+                const destinationY = y + (Math.random() - 0.5) * 50;
+
+                const animation = particle.animate([
+                    {
+                        // Set the origin position
+                        transform: translate(${x}px, ${y}px),
+                        opacity: 1
+                    },
+                    {
+                        // and the destination position
+                        transform: translate(${destinationX}px, ${destinationY}px),
+                        opacity: 0
+                    }
+                ], {
+                    duration: 500 + Math.random() * 1000,
+                    easing: 'ease-out',
+                    delay: Math.random() * 200
+                });
+
+                // When the animation is complete, remove the element from the page
+                animation.onfinish = () => {
+                    particle.remove();
+                };
+            }
+
+            // Generate particles at a regular interval
+            setInterval(() => {
+                if (currentMousePos.x !== -1) {
+                    for (let i = 0; i < 2; i++) { // Create 2 particles at a time for a denser effect
+                        createParticle(currentMousePos.x, currentMousePos.y);
+                    }
+                }
+            }, 50); // Every 50 milliseconds
         });
     </script>
 </body>
