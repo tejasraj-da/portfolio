@@ -7,39 +7,69 @@
     <meta name="description" content="A professional portfolio showcasing the data analysis projects and skills of Tejas Raj.">
     
     <style>
-        /* --- Professional Look & Feel --- */
+        /* --- Professional & Interactive Design --- */
         :root {
-            --primary-color: #34568B; /* A more sophisticated slate blue */
-            --secondary-color: #f9f9f9; /* A softer off-white */
-            --text-color: #2c2c2c; /* A dark charcoal for better readability */
+            --primary-color: #2c5b8b; /* A deeper, more professional blue */
+            --secondary-color: #f7f9fc; /* A very light, clean blue-grey */
+            --accent-color: #4A90E2; /* A brighter blue for hover effects */
+            --text-color: #333333;
             --heading-font: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --body-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
+        /* --- SUPER INTERACTIVE CURSOR --- */
         body {
+            cursor: none; /* Hide default cursor */
             font-family: var(--body-font);
             margin: 0;
-            padding: 0;
-            line-height: 1.7;
             background-color: #fff;
             color: var(--text-color);
             scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -webkit-font-smoothing: antialiased;
         }
 
+        .cursor-dot, .cursor-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(74, 144, 226, 0.5);
+            transition: transform 0.2s ease-out, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+        }
+        /* Hover effect class added by JS */
+        .cursor-outline.hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            width: 50px;
+            height: 50px;
+            border-color: rgba(74, 144, 226, 0.8);
+        }
+        /* --- End Cursor CSS --- */
+
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* --- Header: Photo on Right --- */
         header {
             background-color: var(--secondary-color);
             padding: 5rem 1rem;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e7eaf0;
         }
-
         .header-content {
             display: flex; 
             flex-direction: column; 
@@ -48,211 +78,179 @@
             max-width: 900px;
             margin: 0 auto;
         }
-
         .profile-photo {
-            width: 130px; /* Made slightly smaller */
-            height: 130px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover; 
-            border: 4px solid var(--primary-color);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 5px solid #fff;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             flex-shrink: 0;
         }
-
-        .header-text {
-            text-align: center;
-        }
-
+        .header-text { text-align: center; }
         header h1 {
             font-family: var(--heading-font);
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 700;
             margin: 0 0 0.5rem 0;
             color: var(--primary-color);
         }
-
         header p {
             font-size: 1.25rem;
             color: #555;
             margin: 0;
         }
-
-        /* Responsive layout for header */
         @media (min-width: 768px) {
-            .header-content {
-                flex-direction: row-reverse; /* Moves photo to the right */
-                gap: 3rem;
-            }
-            .header-text {
-                text-align: left;
-            }
-            header h1 {
-                font-size: 3.5rem;
-            }
+            .header-content { flex-direction: row-reverse; gap: 3rem; }
+            .header-text { text-align: left; }
+            header h1 { font-size: 3.8rem; }
         }
 
-        /* --- Navigation --- */
         nav {
             background-color: #fff;
             padding: 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid #e0e0e0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-bottom: 1px solid #e7eaf0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        
         nav ul {
             list-style: none;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 30px;
         }
-        
         nav a {
             color: #333;
             text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 8px 16px;
+            border-radius: 6px;
             transition: color 0.3s ease, background-color 0.3s ease;
         }
-
         nav a:hover {
             color: #fff;
             background-color: var(--primary-color);
         }
 
-        /* --- Sections --- */
-        section {
-            padding: 5rem 1rem;
-        }
-        
-        #projects { /* Give projects a slightly different background */
-            background-color: var(--secondary-color);
-        }
-
+        section { padding: 6rem 1rem; }
+        #projects { background-color: var(--secondary-color); }
         h2 {
             font-family: var(--heading-font);
             text-align: center;
             margin-top: 0;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
+            margin-bottom: 3.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
             color: var(--primary-color);
         }
         
-        /* --- Skills Section --- */
         .skills-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            max-width: 800px;
+            gap: 15px;
+            max-width: 850px;
             margin: 0 auto;
         }
-        
         .skill-badge {
-            background-color: #eef2f9;
-            color: #34568B;
-            padding: 10px 20px;
-            border-radius: 20px;
+            background-color: #fff;
+            color: var(--primary-color);
+            padding: 12px 24px;
+            border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
             border: 1px solid #d1d9e6;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .skill-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
-        /* --- Projects Section --- */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
         }
-
         .project-card {
             background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e7eaf0;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
         }
-
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
         }
-        
-        .project-card p {
-            flex-grow: 1; /* Makes description take up available space */
-        }
-
+        .project-card p { flex-grow: 1; margin-bottom: 1.5rem; }
         .project-card h3 {
             margin-top: 0;
             margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .project-links a {
             color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            margin-right: 15px;
-            transition: opacity 0.3s ease;
+            font-size: 1.5rem;
         }
-
+        .project-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 700;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
         .project-links a:hover {
-            opacity: 0.7;
+            color: var(--primary-color);
             text-decoration: underline;
         }
 
-        /* --- Contact Section --- */
-        #contact {
-            text-align: center;
-        }
+        #contact { text-align: center; }
         #contact p {
             max-width: 600px;
-            margin: 0 auto 2rem auto;
-            font-size: 1.1rem;
+            margin: 0 auto 2.5rem auto;
+            font-size: 1.15rem;
         }
-
         .contact-links {
             margin-top: 20px;
             display: flex;
             justify-content: center;
             gap: 20px;
         }
-        
         .contact-links a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: bold;
-            padding: 12px 25px;
+            font-size: 1.1rem;
+            padding: 14px 28px;
             border: 2px solid var(--primary-color);
-            border-radius: 5px;
+            border-radius: 8px;
             transition: all 0.3s ease;
         }
-
         .contact-links a:hover {
             background-color: var(--primary-color);
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* --- Footer --- */
         footer {
             background-color: #2c2c2c;
             color: #ccc;
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem;
         }
     </style>
 </head>
 <body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
     <header>
         <div class="container">
@@ -271,6 +269,7 @@
             <li><a href="#skills">Skills</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="Tejas-Raj-Resume.pdf" target="_blank">Resume</a></li>
         </ul>
     </nav>
 
@@ -281,15 +280,12 @@
                 <span class="skill-badge">Python</span>
                 <span class="skill-badge">SQL</span>
                 <span class="skill-badge">MongoDB</span>
+                <span class="skill-badge">Power BI</span>
                 <span class="skill-badge">MS Excel</span>
                 <span class="skill-badge">Pandas</span>
                 <span class="skill-badge">NumPy</span>
                 <span class="skill-badge">Matplotlib</span>
-                <span class="skill-badge">Seaborn</span>
                 <span class="skill-badge">Scikit-learn</span>
-                <span class="skill-badge">Tableau</span>
-                <span class="skill-badge">Power BI</span>
-                <span class="skill-badge">Machine Learning</span>
                 <span class="skill-badge">Git & GitHub</span>
             </div>
         </section>
@@ -342,5 +338,44 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+
+            document.addEventListener('mouseenter', () => {
+                cursorDot.style.opacity = 1;
+                cursorOutline.style.opacity = 1;
+            });
+
+            document.addEventListener('mouseleave', () => {
+                cursorDot.style.opacity = 0;
+                cursorOutline.style.opacity = 0;
+            });
+
+            window.addEventListener('mousemove', e => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                cursorDot.style.left = ${posX}px;
+                cursorDot.style.top = ${posY}px;
+
+                cursorOutline.animate({
+                    left: ${posX}px,
+                    top: ${posY}px
+                }, { duration: 500, fill: 'forwards' });
+            });
+
+            const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-badge');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseover', () => {
+                    cursorOutline.classList.add('hover');
+                });
+                el.addEventListener('mouseout', () => {
+                    cursorOutline.classList.remove('hover');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
